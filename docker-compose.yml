@@ -1,0 +1,44 @@
+version: '2'
+services:
+  queue:
+    image: redis:4.0
+    volumes:
+      - /data/redis:/data
+    networks:
+      - netchat
+  mongo: 
+    image: mongo:4.2
+    volumes:
+      - /data/mongo:/data/db
+    environment:
+      - STAGE=${STAGE}
+      - MONGO_INITDB_ROOT_USERNAME=ian
+      - MONGO_INITDB_ROOT_PASSWORD=secretPassword
+    ports:
+      - 27017:27017
+    networks:
+      - netchat
+  chatweb:
+    build: chat.webapi
+    image: chatwebapi
+    container_name: chat.webapi
+    links:
+      - mongo
+    environment:
+      - STAGE=${STAGE}
+      - REDIS_HOST=queue
+      - REDIS_NAME=chatweb
+      - REDIS_PORT=6379
+      - REDIS_VT=60
+      - DB_HOST=mongodb://ian:secretPassword@mongo/chatweb
+      - DB_USER=root
+      - DB_PWD=example
+    depends_on:
+      - queue
+      - mongo
+    networks:
+      - netchat
+networks:
+  netchat:
+    driver: bridge
+  
