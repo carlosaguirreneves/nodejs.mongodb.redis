@@ -24,6 +24,7 @@ export class Startup {
                 })
 
                 this.application.use(restify.plugins.queryParser())
+                this.application.use(restify.plugins.jsonBodyParser())
 
                 for (let router of routers) {
                     router.applyRoutes(this.application)
