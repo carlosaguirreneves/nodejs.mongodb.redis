@@ -1,8 +1,8 @@
 module.exports = {
   apps : [{
-    name   : "imoveisbackend",
-    script : "app/server.js",
+    name   : "chatweb",
+    script : "dist/main.js",
     exec_mode: 'cluster',
-    instances: 1
+    instances: 2
   }]
 }
