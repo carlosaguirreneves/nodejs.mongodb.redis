@@ -19,7 +19,10 @@ services:
     networks:
       - netchat
   chatweb:
-    build: chat.webapi
+    build: 
+      context: chat.webapi
+      args:
+        - PORT_OUT=${PORT_OUT}
     image: chatwebapi
     container_name: chat.webapi
     links:
@@ -33,6 +36,8 @@ services:
       - DB_HOST=mongodb://ian:secretPassword@mongo/chatweb
       - DB_USER=root
       - DB_PWD=example
+    ports:
+      - "${PORT_OUT}:3000"
     depends_on:
       - queue
       - mongo

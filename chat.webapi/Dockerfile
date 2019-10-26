@@ -1,6 +1,8 @@
 FROM node
 LABEL maintainer CIPA
 
+ARG PORT_OUT
+
 COPY . /var/tmp/app
 WORKDIR /var/tmp/app
 
@@ -13,3 +15,4 @@ RUN rm -rf /var/tmp/app
 WORKDIR /app
 #ENTRYPOINT node main
 ENTRYPOINT ["pm2-runtime", "ecosystem.config.js"]
+EXPOSE $PORT_OUT
